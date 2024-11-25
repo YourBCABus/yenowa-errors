@@ -1,0 +1,38 @@
+[package]
+name = "yenowa-errors"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+runtime = ["actix-web", "clickhouse", "time", "uuid", "serde/derive", "env", "env_logger", "log"]
+test = ["tokio", "env"]
+env = ["dotenvy"]
+rustls = ["reqwest/rustls-tls"]
+
+default = ["runtime", "test"]
+
+[[bin]]
+name = "runtime"
+path = "src/bin/runtime.rs"
+required-features = ["runtime"]
+
+[[bin]]
+name = "test"
+path = "src/bin/test.rs"
+required-features = ["test"]
+
+[dependencies]
+serde_json = { version = "1.0.133" }
+serde = { version = "1.0.215" }
+reqwest = { version = "0.12.9" }
+
+dotenvy = { version = "0.15.7", optional = true }
+
+actix-web = { version = "4.9.0", features = ["rustls"], optional = true }
+clickhouse = { version = "0.13.1", features = ["rustls-tls", "time", "uuid"], optional = true }
+time = { version = "0.3.36", features = ["serde"], optional = true }
+uuid = { version = "1.11.0", features = ["serde", "v4"], optional = true }
+env_logger = { version = "0.11.5", optional = true }
+log = { version = "0.4.22", optional = true }
+
+tokio = { version = "1.41.1", features = ["rt", "macros"], optional = true }
